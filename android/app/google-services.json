@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "40178892186",
+    "project_id": "derma-visuals",
+    "storage_bucket": "derma-visuals.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:40178892186:android:d81f2f1bd06b588a944e23",
+        "android_client_info": {
+          "package_name": "com.example.derma_visuals"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAuRBMEYz704SvAfrtfTpdPNAJcZNFE9is"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
