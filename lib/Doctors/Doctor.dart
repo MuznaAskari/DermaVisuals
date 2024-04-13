@@ -9,7 +9,7 @@ class DoctorHome extends StatelessWidget {
     return SafeArea(
         child: Scaffold(
           appBar: appbar(context),
-          drawer:  drawer(context, "Doctor"),
+          drawer:  drawerDoctor(context, "Doctor"),
 
         )
     );

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:DermaVisuals/Components/button.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -100,37 +101,8 @@ class _UserHomeState extends State<UserHome> {
               ),
           ],
         ),
-        drawer: drawer(context, "User"),
-        // drawer: Align(
-        //   alignment: Alignment.centerLeft,
-        //   child: Drawer(
-        //     child: ListView(
-        //       children: [
-        //         UserAccountsDrawerHeader(
-        //             decoration: BoxDecoration(
-        //               color: Color(
-        //                   0xFFA86A44), // Set the background color to brown
-        //             ),
-        //             accountName: Text(
-        //                 '${FirebaseAuth.instance.currentUser?.displayName }'),
-        //             accountEmail: Text('${accountEmail}')
-        //           // currentAccountPicture: CircleAvatar(
-        //           //   backgroundImage: AssetImage('assets/profile_image.jpg'),
-        //           // ),
-        //         ),
-        //         InkWell(
-        //           onTap: () {
-        //             SignupController.instance.LogoutUser();
-        //           },
-        //           child: ListTile(
-        //             leading: Icon(Icons.logout),
-        //             title: Text("Logout"),
-        //           ),
-        //         )
-        //       ],
-        //     ),
-        //   ),
-        // ),
+        drawer: drawerUser(context, "User"),
+
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -147,74 +119,9 @@ class _UserHomeState extends State<UserHome> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: GestureDetector(
-                      onTap: () {
-                        clickImage();
-                      },
-                      child: Container(
-                        width: MediaQuery.of(context).size.width - 100,
-                        height: MediaQuery.of(context).size.height - 770,
-                        child: Center(
-                          child: ListTile(
-                            leading: Icon(Icons.camera_alt_outlined),
-                            title: Text(
-                              "Click a Photo",
-                              style: GoogleFonts.montserrat(
-                                color: Colors.brown[900],
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          image: DecorationImage(
-                              image: AssetImage(
-                                  "assets/Brown button texture.jpeg"),
-                              fit: BoxFit.cover
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
+                  TextureButton(clickImage, Icon(Icons.camera_alt_outlined), "Click a Photo", context),
                   SizedBox(width: 20),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: GestureDetector(
-                      onTap: () {
-                        pickImage();
-                      },
-                      child: Container(
-                        alignment: Alignment.center,
-                        width: MediaQuery.of(context).size.width - 100,
-                        height: MediaQuery.of(context).size.height - 770,
-                        child: Center(
-                          child: ListTile(
-                            leading: Icon(Icons.photo),
-                            title: Text(
-                              "Choose image from Gallery",
-                              style: GoogleFonts.montserrat(
-                                color: Colors.brown[900],
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          image: DecorationImage(
-                              image: AssetImage(
-                                  "assets/Brown button texture.jpeg"),
-                              fit: BoxFit.cover
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
+                  TextureButton(pickImage, Icon(Icons.photo_album_outlined), "Choose image from Gallery", context),
                 ],
               ),
             ],

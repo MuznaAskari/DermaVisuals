@@ -1,4 +1,5 @@
 import 'package:DermaVisuals/Doctors/Doctor.dart';
+import 'package:DermaVisuals/Login/Login_option_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -29,25 +30,45 @@ class AuthenticationRepository extends GetxController {
     Future.delayed(const Duration(seconds: 6));
     firebaseUser = Rx<User?>(_auth.currentUser);
     firebaseUser.bindStream(_auth.userChanges());
-    ever(firebaseUser, _setInitialScreen);
+    ever(firebaseUser, (User? user) => _setInitialScreen(user));
+    // ever(firebaseUser, _setInitialScreen);
   }
 
-  _setInitialScreen(User? user) {
-    if (user == null) {
-      Get.offAll(() => SplashScreen());
-    } else {
-      FirebaseFirestore.instance.collection('users').doc(user!.uid)
-          .get().then((DocumentSnapshot documentSnapshot) {
-        if (documentSnapshot.exists) {
-          if (documentSnapshot.get('role') == "User") {
-            Get.offAll(() => UserHome());
-          } else if (documentSnapshot.get('role') == "Doctor") {
-            Get.offAll(() => DoctorHome());
-          }
-        }
-      });
-    }
+   void _setInitialScreen(User? user) {
+    FirebaseAuth.instance.authStateChanges().listen((User? user) {
+      if (user == null) {
+        Get.offAll(() => LoginOption());
+      } else {
+        FirebaseFirestore.instance.collection('users').doc(user.uid).get().then(
+              (DocumentSnapshot documentSnapshot) {
+            if (documentSnapshot.exists) {
+              if (documentSnapshot.get('role') == "User") {
+                Get.offAll(() => UserHome());
+              } else if (documentSnapshot.get('role') == "Doctor") {
+                Get.offAll(() => DoctorHome());
+              }
+            }
+          },
+        );
+      }
+    });
   }
+  // _setInitialScreen(User? user) {
+  //   if (user == null) {
+  //     Get.offAll(() => LoginScreen());
+  //   } else {
+  //     FirebaseFirestore.instance.collection('users').doc(user!.uid)
+  //         .get().then((DocumentSnapshot documentSnapshot) {
+  //       if (documentSnapshot.exists) {
+  //         if (documentSnapshot.get('role') == "User") {
+  //           Get.offAll(() => UserHome());
+  //         } else if (documentSnapshot.get('role') == "Doctor") {
+  //           Get.offAll(() => DoctorHome());
+  //         }
+  //       }
+  //     });
+  //   }
+  // }
 
   //   user == null
   //       ? Get.offAll(() => SplashScreen())

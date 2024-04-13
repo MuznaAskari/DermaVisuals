@@ -171,7 +171,7 @@ class _SkinTypeQuizPageState extends State<SkinTypeQuizPage> {
                           questions[questionIndex]['questionText'] as String,
                           style: GoogleFonts.robotoCondensed(
                             fontSize: 22,
-                            fontStyle: FontStyle.italic,
+                            // fontStyle: FontStyle.italic,
                             color: Colors.brown,
                             fontWeight: FontWeight.bold,
                           ),
@@ -199,7 +199,7 @@ class _SkinTypeQuizPageState extends State<SkinTypeQuizPage> {
                                     answer['text'] as String,
                                     style: TextStyle(
                                       fontSize: 18,
-                                      fontStyle: FontStyle.italic,
+                                      // fontStyle: FontStyle.italic,
                                       fontWeight: FontWeight.bold,
                                       color: Colors.brown,
                                     ),
@@ -231,7 +231,7 @@ class _SkinTypeQuizPageState extends State<SkinTypeQuizPage> {
                         style: GoogleFonts.robotoCondensed(
                           fontSize: 20,
                           color: Colors.brown,
-                          fontStyle: FontStyle.italic,
+                          // fontStyle: FontStyle.italic,
                         ),
                       ),
                       Text(
@@ -240,7 +240,7 @@ class _SkinTypeQuizPageState extends State<SkinTypeQuizPage> {
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
                           color: Colors.brown,
-                          fontStyle: FontStyle.italic,
+                          // fontStyle: FontStyle.italic,
                         ),
                       ),
                       SizedBox(height: 10),
