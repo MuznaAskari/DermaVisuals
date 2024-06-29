@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:DermaVisuals/Components/button.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -10,6 +9,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:DermaVisuals/Components/appbar.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:tflite_v2/tflite_v2.dart';
 
 import '../Controller/signup_controller.dart';
 
@@ -21,11 +21,69 @@ class UserHome extends StatefulWidget {
 }
 
 class _UserHomeState extends State<UserHome> {
+  // stores label of the ai model
+  List<String>? labels;
+  String? detectedDisease;
+
   final controller = Get.put(SignupController());
   String? accountEmail;
-
+  // allows user upload image
   File? image;
   UploadTask? uploadTask;
+  // this is to load the tflite model and classify it
+  void initState() {
+    super.initState();
+    loadModel().then((_) {
+    }).catchError((error) {
+      print("Error loading model: $error");
+    });
+  }
+
+  void dispose() {
+    Tflite.close();
+    super.dispose();
+  }
+
+  Future<void> loadModel() async {
+    try {
+      String? res = await Tflite.loadModel(
+        model: "assets/model/model_0.0001_adam_0.5.tflite",
+        labels: "assets/model/label.txt",
+      );
+      print("Model loaded: $res");
+      // add labels to string
+      final labelsString = await rootBundle.loadString('assets/model/label.txt');
+      // labels = labelsString.split('\n');
+      labels = labelsString.split('\n').map((s) => s.trim()).toList();
+
+    } on Exception catch (e) {
+      print("Failed to load the model: $e");
+    }
+  }
+  // provides with index which tells which model the image belongs too
+  Future<void> classifyImage(String imagePath) async {
+    print("classify Image called");
+    var output = await Tflite.runModelOnImage(
+      path: imagePath,
+      numResults: 6,  // Number of outputs to return
+      threshold: 0.05,  // Minimum confidence to return a result
+      imageMean: 127.5, // Means of the input image
+      imageStd: 127.5, // Standard deviation of the input image
+    );
+    print("The Output is : ${output}");
+    print("Image Path is ${imagePath}");
+
+    if (output != null && labels != null) {
+      final index = output[0]['index'];
+      // final label = labels![index];
+      setState(() {
+        detectedDisease = labels![index];
+      });
+      print(detectedDisease);
+    }
+  }
+
+// allows user to upload their file on firebase
   Future uploadFile() async{
     final path = 'CustomerImages/${File(image!.path)}';
     final file = File(image!.path!);
@@ -35,7 +93,7 @@ class _UserHomeState extends State<UserHome> {
 
     final urlDownload = await snapshot.ref.getDownloadURL();
   }
-
+// user selects file from gallery
   Future pickImage() async {
     try {
       final image = await ImagePicker().pickImage(source: ImageSource.gallery);
@@ -49,6 +107,7 @@ class _UserHomeState extends State<UserHome> {
       print('Failed to pick image ${e}');
     };
   }
+  // user uses their camera to click pictures
   Future clickImage() async {
     try {
       final image = await ImagePicker().pickImage(source: ImageSource.camera);
@@ -83,7 +142,8 @@ class _UserHomeState extends State<UserHome> {
             if(image != null)
               InkWell(
                 onTap: (){
-                  uploadFile();
+                  // uploadFile();
+                  classifyImage(image!.path);
                 },
                 child: Center(
                   child: Container(
@@ -109,6 +169,7 @@ class _UserHomeState extends State<UserHome> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               buildProgress(),
+              Text(detectedDisease == ""?"Save Image to generate results" :"${detectedDisease}"),
               Container(
                 height: MediaQuery.sizeOf(context).height - 400,
                 width: MediaQuery.sizeOf(context).width - 100,
@@ -148,11 +209,10 @@ class _UserHomeState extends State<UserHome> {
               );
             }
           }else{
-        return Text(
-            "Save Image to generate results",
-        );
+        return Text(" ");
       }
     }
   );
+
   }
 

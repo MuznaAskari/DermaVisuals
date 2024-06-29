@@ -29,7 +29,11 @@ android {
     namespace "com.example.derma_visuals"
     compileSdkVersion flutter.compileSdkVersion
     ndkVersion flutter.ndkVersion
-
+    //to read tflite file
+    aaptOptions {
+        noCompress 'tflite'
+        noCompress 'lite'
+    }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -70,4 +74,5 @@ flutter {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'com.google.firebase:firebase-appcheck-safetynet:16.0.0-beta01'
 }

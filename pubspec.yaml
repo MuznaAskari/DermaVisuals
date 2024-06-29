@@ -51,6 +51,8 @@ dependencies:
   firebase_app_check: ^0.2.0+1
   device_preview: ^1.1.0
   animated_text_kit: ^4.2.2
+  tflite_v2: ^1.0.0
+
 
 dev_dependencies:
   flutter_test:
@@ -80,6 +82,9 @@ flutter:
    - assets/login-background.png
    - assets/login_option_bg.png
    - assets/Pharmacy-Categories/
+   - assets/model/modelWith83Accuracy.tflite
+   - assets/model/model_0.0001_adam_0.5.tflite
+   - assets/model/label.txt
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
