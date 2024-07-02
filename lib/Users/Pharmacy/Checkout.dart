@@ -153,27 +153,25 @@ class Checkout extends StatelessWidget  {
                 children: [
                   Expanded(
                     child: Container(
-                      child: Column(
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Container(
-                            child: Text(
-                              'SHIPPING',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 14.0,
-
+                          Icon(
+                            Icons.arrow_drop_down_sharp,
+                            color: Colors.white,
+                          ),
+                          Expanded(
+                            child: Container(
+                              child: Center(
+                                child: Text(
+                                  'SHIPPING',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 14.0,
+                                  ),
+                                ),
                               ),
                             ),
-                            // color: Colors.red,
-                            padding: EdgeInsets.only(top: 12.0),
-                          ),
-                          Container(
-                            // color: Colors.green,
-                            child: UpwardTriangleIcon(
-                              color: Colors.white,
-                              size: 10.0,
-                            ),
-                            padding: EdgeInsets.only(top: 2.0),
                           ),
                         ],
                       ),

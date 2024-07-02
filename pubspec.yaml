@@ -84,6 +84,7 @@ flutter:
    - assets/Pharmacy-Categories/
    - assets/model/modelWith83Accuracy.tflite
    - assets/model/model_0.0001_adam_0.5.tflite
+   - assets/model/model_0.0001_adam_0.5_Normal.tflite
    - assets/model/label.txt
 
   # An image asset can refer to one or more resolution-specific "variants", see

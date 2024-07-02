@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 Widget TextureButton(VoidCallback buttonFunction, Icon buttonIcon ,String buttonText, BuildContext context){
+  var deviceWidth = MediaQuery.of(context).size.width;
+  var deviceHeight = MediaQuery.of(context).size.height;
   return Padding(
     padding: const EdgeInsets.all(8.0),
     child: GestureDetector(
@@ -9,8 +11,8 @@ Widget TextureButton(VoidCallback buttonFunction, Icon buttonIcon ,String button
         buttonFunction();
       },
       child: Container(
-        width: MediaQuery.of(context).size.width - 100,
-        height: MediaQuery.of(context).size.height - 770,
+        width: deviceWidth * 0.7,
+        height: deviceHeight * 0.075,
         child: Center(
           child: ListTile(
             leading: buttonIcon,

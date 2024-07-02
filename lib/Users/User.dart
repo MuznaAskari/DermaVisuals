@@ -47,7 +47,7 @@ class _UserHomeState extends State<UserHome> {
   Future<void> loadModel() async {
     try {
       String? res = await Tflite.loadModel(
-        model: "assets/model/model_0.0001_adam_0.5.tflite",
+        model: "assets/model/model_0.0001_adam_0.5_Normal.tflite",
         labels: "assets/model/label.txt",
       );
       print("Model loaded: $res");
