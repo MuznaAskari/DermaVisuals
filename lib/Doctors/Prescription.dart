@@ -1,4 +1,5 @@
 import 'package:DermaVisuals/Components/button.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
@@ -27,21 +28,53 @@ class _PrescriptionState extends State<Prescription> {
     _prescriptionController.dispose();
     super.dispose();
   }
+
+  // submit prescription data to firebase
+  Future<void> _submitPrescription() async {
+    if (_formKey.currentState!.validate()) {
+      try {
+        await FirebaseFirestore.instance.collection('prescriptions').add({
+          'email': _emailController.text,
+          'name': _nameController.text,
+          'prescription': _prescriptionController.text,
+        });
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Prescription submitted successfully')),
+        );
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error submitting prescription: $e')),
+        );
+      }
+    }
+  }
   @override
   Widget build(BuildContext context) {
+    var deviceWidth = MediaQuery.of(context).size.width;
+    var deviceHeight = MediaQuery.of(context).size.height;
     return Scaffold(
-      appBar: AppBar(),
+      appBar: appbar(context),
       drawer: drawerDoctor(context, "Doctor"),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
           key: _formKey,
-          child: ListView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
+              Text(
+                "PRESCRIPTION",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: deviceWidth < 800 ? deviceHeight * 0.025: deviceHeight * 0.03,
+                  color: Color(0xFF6D4C41)
+                ),
+              ),
+              SizedBox(height: deviceHeight * 0.1,),
               TextFormField(
                 controller: _emailController,
                 decoration: const InputDecoration(
-                  labelText: 'Email',
+                  labelText: 'Patient Email',
                   border: OutlineInputBorder(),
                 ),
                 keyboardType: TextInputType.emailAddress,
@@ -60,7 +93,7 @@ class _PrescriptionState extends State<Prescription> {
               TextFormField(
                 controller: _nameController,
                 decoration: const InputDecoration(
-                  labelText: 'Name',
+                  labelText: 'Patient Name',
                   border: OutlineInputBorder(),
                 ),
                 validator: (value) {
@@ -86,17 +119,18 @@ class _PrescriptionState extends State<Prescription> {
                 },
               ),
               const SizedBox(height: 16.0),
-              ElevatedButton(
-                onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    // Process the input (e.g., send it to a server or save it locally)
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Processing Data')),
-                    );
-                  }
-                },
-                child: const Text('Submit'),
-              ),
+              TextureButton(
+                      () {
+                        if (_formKey.currentState!.validate()) {
+                          // Process the input (e.g., send it to a server or save it locally)
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Processing Data')),
+                          );
+                          _submitPrescription();
+                        }
+                      },
+                  Icon(Icons.local_pharmacy_outlined),
+                  "Submit Prescription", context),
             ],
           ),
         ),

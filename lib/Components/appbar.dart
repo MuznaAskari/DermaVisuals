@@ -1,4 +1,6 @@
 import 'package:DermaVisuals/Controller/signup_controller.dart';
+import 'package:DermaVisuals/Doctors/Doctor.dart';
+import 'package:DermaVisuals/Doctors/DoctorVerificationForm.dart';
 import 'package:DermaVisuals/Doctors/Prescription.dart';
 import 'package:DermaVisuals/Users/Pharmacy/home.dart';
 import 'package:DermaVisuals/Users/Pharmacy/home_page.dart';
@@ -68,13 +70,31 @@ Drawer drawerDoctor(BuildContext context, String AccountType){
 
             InkWell(
               onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder:  (context) => Prescription_Upload()));
+                Navigator.push(context, MaterialPageRoute(builder:  (context) => DoctorHome()));
               },
               child: ListTile(
-                leading: Icon(Icons.edit),
-                title: Text("Upload Prescription"),
+                leading: Icon(Icons.home),
+                title: Text("Home"),
               ),
             ),
+          InkWell(
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder:  (context) => DoctorVerificationForm()));
+            },
+            child: ListTile(
+              leading: Icon(Icons.verified_user),
+              title: Text("Doctor Verification"),
+            ),
+          ),
+          InkWell(
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder:  (context) => Prescription()));
+            },
+            child: ListTile(
+              leading: Icon(Icons.edit),
+              title: Text("Prescribe Patients"),
+            ),
+          ),
         ],
       ),
     );

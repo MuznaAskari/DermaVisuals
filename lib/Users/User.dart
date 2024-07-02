@@ -123,6 +123,8 @@ class _UserHomeState extends State<UserHome> {
   }
     @override
     Widget build(BuildContext context) {
+      var deviceWidth = MediaQuery.of(context).size.width;
+      var deviceHeight = MediaQuery.of(context).size.height;
       if (FirebaseAuth.instance.currentUser != null) {
         if (FirebaseAuth.instance.currentUser?.email != null) {
           // User signed up with an email
@@ -169,7 +171,13 @@ class _UserHomeState extends State<UserHome> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               buildProgress(),
-              Text(detectedDisease == ""?"Save Image to generate results" :"${detectedDisease}"),
+              Text(
+                  detectedDisease == null?"Save Image to generate results" :"${detectedDisease}",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: deviceWidth < 800 ? deviceHeight * 0.02: deviceHeight * 0.025,
+                ),
+              ),
               Container(
                 height: MediaQuery.sizeOf(context).height - 400,
                 width: MediaQuery.sizeOf(context).width - 100,
