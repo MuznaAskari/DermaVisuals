@@ -34,9 +34,10 @@ class _PrescriptionState extends State<Prescription> {
     if (_formKey.currentState!.validate()) {
       try {
         await FirebaseFirestore.instance.collection('prescriptions').add({
-          'email': _emailController.text,
+          'email / PhoneNo': _emailController.text,
           'name': _nameController.text,
           'prescription': _prescriptionController.text,
+          'Date&Time': DateTime.now(),
         });
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Prescription submitted successfully')),

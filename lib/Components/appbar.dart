@@ -6,6 +6,7 @@ import 'package:DermaVisuals/Users/Pharmacy/home.dart';
 import 'package:DermaVisuals/Users/Pharmacy/home_page.dart';
 import 'package:DermaVisuals/Users/SkinType%20Quiz.dart';
 import 'package:DermaVisuals/Users/User.dart';
+import 'package:DermaVisuals/Users/View%20Prescription.dart';
 import 'package:DermaVisuals/constants/color%20constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -151,7 +152,7 @@ Drawer drawerUser(BuildContext context, String AccountType){
                   Navigator.push(context, MaterialPageRoute(builder:  (context) => UserHome()));
                 },
                 child: ListTile(
-                  leading: Icon(Icons.note_alt_outlined),
+                  leading: Icon(Icons.home),
                   title: Text("Home"),
                 ),
               ),
@@ -173,6 +174,15 @@ Drawer drawerUser(BuildContext context, String AccountType){
                   title: Text("Pharmacy"),
                 ),
               ),
+        InkWell(
+          onTap: () {
+            Navigator.push(context, MaterialPageRoute(builder:  (context) => FetchPrescription()));
+          },
+          child: ListTile(
+            leading: Icon(Icons.medical_services),
+            title: Text("View Precription"),
+          ),
+        ),
       ],
     ),
   );
