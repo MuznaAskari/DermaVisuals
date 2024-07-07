@@ -10,7 +10,7 @@ import 'paymentSuccessfulPage.dart';
 import 'payment_config.dart';
 import '../home_page.dart';
 
-
+bool cashOnDelivery = false;
 class PaymentPage extends StatefulWidget {
   final double totalprice;
   const PaymentPage({Key? key,required this.totalprice,}) : super(key: key);
@@ -86,6 +86,8 @@ class _PaymentPageState extends State<PaymentPage> {
 
   @override
   Widget build(BuildContext context) {
+    var deviceWidth = MediaQuery.of(context).size.width;
+    var deviceHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 40.0,
@@ -185,26 +187,64 @@ class _PaymentPageState extends State<PaymentPage> {
               ],
             ),
           ),
-          Container(
-            child: Expanded(
+          SizedBox(height: deviceHeight* 0.1,),
+          InkWell(
+            onTap: (){
+              setState(() {
+                cashOnDelivery = true;
+              });
+              Navigator.push(context, MaterialPageRoute(builder: (context) => PaymentSuccessfulPage()));
+            },
+            child: Container(
+              height: deviceHeight * 0.075,
+              width: deviceWidth* 0.6,
+              decoration: BoxDecoration(
+                color: Colors.grey[900],
+                borderRadius: BorderRadius.circular(deviceHeight * 0.05),
+              ),
               child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-
-                    SizedBox(height: 30.0,),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        if (Platform.isIOS) applePayButton,
-                        if (!Platform.isIOS) googlePayButton,
-                      ],
+                    Text(
+                      "Cash On Delivery",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: deviceWidth < 800 ? deviceHeight * 0.025: deviceHeight * 0.025,
+                      ),
                     ),
+                    SizedBox(width: deviceWidth * 0.01,),
+                    Icon(
+                      Icons.attach_money,
+                      color:Colors.green[500],
+                      size: deviceWidth < 800 ? deviceHeight * 0.03: deviceHeight * 0.035,
+                    )
                   ],
                 ),
               ),
             ),
           ),
+          Container(
+              child: Expanded(
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+
+                      SizedBox(height: 30.0,),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          if (Platform.isIOS) applePayButton,
+                          if (!Platform.isIOS) googlePayButton,
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
         ],
       ),
     );

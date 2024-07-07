@@ -1,3 +1,4 @@
+import 'package:DermaVisuals/Users/Pharmacy/Payment_gateway/GPay.dart';
 import 'package:DermaVisuals/constants/color%20constants.dart';
 import 'package:flutter/material.dart';
 
@@ -8,6 +9,8 @@ class PaymentSuccessfulPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var deviceWidth = MediaQuery.of(context).size.width;
+    var deviceHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 40.0,
@@ -120,7 +123,7 @@ class PaymentSuccessfulPage extends StatelessWidget {
                   ),
                   SizedBox(height: 16),
                   Text(
-                    'Payment Successful',
+                    cashOnDelivery == true? 'Order Confirmed':'Payment Successful',
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
