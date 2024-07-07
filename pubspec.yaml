@@ -53,6 +53,7 @@ dependencies:
   animated_text_kit: ^4.2.2
   tflite_v2: ^1.0.0
   intl: ^0.18.1
+  pay: ^2.0.0
 
 
 dev_dependencies:

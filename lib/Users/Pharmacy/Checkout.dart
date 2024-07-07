@@ -3,23 +3,36 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
 
-class Checkout extends StatelessWidget  {
+import 'Payment_gateway/GPay.dart';
+
+class Checkout extends StatefulWidget  {
   final double totalAmount;
 
-  const Checkout({Key? key,
+  Checkout({Key? key,
     required this.totalAmount,
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-    final TextEditingController emailController = TextEditingController();
-    final TextEditingController nameController = TextEditingController();
-    final TextEditingController addressController = TextEditingController();
-    final TextEditingController cityController = TextEditingController();
-    final TextEditingController countryController = TextEditingController();
-    final TextEditingController zipcodeController = TextEditingController();
+  State<Checkout> createState() => _CheckoutState();
+}
 
+class _CheckoutState extends State<Checkout> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  final TextEditingController emailController = TextEditingController();
+
+  final TextEditingController nameController = TextEditingController();
+
+  final TextEditingController addressController = TextEditingController();
+
+  final TextEditingController cityController = TextEditingController();
+
+  final TextEditingController countryController = TextEditingController();
+
+  final TextEditingController zipcodeController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -51,14 +64,14 @@ class Checkout extends StatelessWidget  {
         actions: [
           IconButton(
             onPressed: () {
-              //ToDo payment page yet to make
-              // Navigator.push(
-              //     context,
-              //     MaterialPageRoute(
-              //       builder:
-              //           (context) => PaymentPage(totalprice: totalAmount),
-              //     )
-              // );
+              // ToDo payment page yet to make
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder:
+                        (context) => PaymentPage(totalprice: widget.totalAmount),
+                  )
+              );
             },
             icon: Icon(Icons.favorite, color: Colors.white),
           )
@@ -106,12 +119,12 @@ class Checkout extends StatelessWidget  {
                   // You can show an error message or handle the error accordingly
                 });
                 //ToDo Payment page yet to make
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute(
-                //     builder: (context) => PaymentPage(totalprice: totalAmount,),
-                //   ),
-                // );
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => PaymentPage(totalprice: widget.totalAmount,),
+                  ),
+                );
               }
             },
             child: Center(
@@ -261,7 +274,7 @@ class Checkout extends StatelessWidget  {
                               ),
                             ),
                             Text(
-                              'Rs. ${totalAmount.toStringAsFixed(2)}',
+                              'Rs. ${widget.totalAmount.toStringAsFixed(2)}',
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 18,
@@ -282,77 +295,77 @@ class Checkout extends StatelessWidget  {
       ),
     );
   }
+}
 
-  Padding _buildTextFormField(
-      TextEditingController controller,
-      BuildContext context,
-      String labelText,
-      ) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Row(
-        children: [
-          SizedBox(
-            width: 75.0,
-            child: Text(
-              labelText,
-              style: TextStyle(
-                color: Colors.grey[700],
-                fontSize: 12.0,
+Widget _buildTextFormField(
+    TextEditingController controller,
+    BuildContext context,
+    String labelText,
+    ) {
+  return Padding(
+    padding: const EdgeInsets.all(8.0),
+    child: Row(
+      children: [
+        SizedBox(
+          width: 75.0,
+          child: Text(
+            labelText,
+            style: TextStyle(
+              color: Colors.grey[700],
+              fontSize: 12.0,
+            ),
+          ),
+        ),
+        Expanded(
+          child: TextFormField(
+            controller: controller,
+            validator: (value) {
+              if (labelText == 'Phone No.') {
+                if (value == null || value.isEmpty) {
+                  return 'Phone number is required';
+                } else if (value.length != 11) {
+                  return 'Phone number must be 11 digits';
+                } else if (!value.startsWith('0')) {
+                  return 'Phone number must start with 0';
+                }else if (!RegExp(r'^\d+$').hasMatch(value)) {
+                  return 'Phone no. must contain only integers';
+                }
+              }
+              if(labelText == 'Full Name' || labelText == 'City' || labelText == 'Country' ){
+                if (value == null || value.isEmpty) {
+                  return 'Field must be filled';
+                }else if (RegExp(r'\d').hasMatch(value)) {
+                  return 'Field cannot contain integers';
+                }
+              }
+              else if(labelText == 'Zip Code'){
+                if (value == null || value.isEmpty) {
+                  return 'Zip Code is required';
+                } else if (value.length != 5) {
+                  return 'Zip code must be 5 digits';
+                }else if (!RegExp(r'^\d+$').hasMatch(value)) {
+                  return 'Zip code must contain only integers';
+                }
+              }
+              else if(labelText == 'Address'){
+                if (value == null || value.isEmpty) {
+                  return 'Address is required';
+                }
+              }
+              return null;
+            },
+            decoration: InputDecoration(
+              isDense: true,
+              contentPadding: const EdgeInsets.only(left: 10.0),
+              focusedBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: Colors.black),
               ),
             ),
           ),
-          Expanded(
-            child: TextFormField(
-              controller: controller,
-              validator: (value) {
-                if (labelText == 'Phone No.') {
-                  if (value == null || value.isEmpty) {
-                    return 'Phone number is required';
-                  } else if (value.length != 11) {
-                    return 'Phone number must be 11 digits';
-                  } else if (!value.startsWith('0')) {
-                    return 'Phone number must start with 0';
-                  }else if (!RegExp(r'^\d+$').hasMatch(value)) {
-                    return 'Phone no. must contain only integers';
-                  }
-                }
-                if(labelText == 'Full Name' || labelText == 'City' || labelText == 'Country' ){
-                  if (value == null || value.isEmpty) {
-                    return 'Field must be filled';
-                  }else if (RegExp(r'\d').hasMatch(value)) {
-                    return 'Field cannot contain integers';
-                  }
-                }
-                else if(labelText == 'Zip Code'){
-                  if (value == null || value.isEmpty) {
-                    return 'Zip Code is required';
-                  } else if (value.length != 5) {
-                    return 'Zip code must be 5 digits';
-                  }else if (!RegExp(r'^\d+$').hasMatch(value)) {
-                    return 'Zip code must contain only integers';
-                  }
-                }
-                else if(labelText == 'Address'){
-                  if (value == null || value.isEmpty) {
-                    return 'Address is required';
-                  }
-                }
-                return null;
-              },
-              decoration: InputDecoration(
-                isDense: true,
-                contentPadding: const EdgeInsets.only(left: 10.0),
-                focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.black),
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+        ),
+      ],
+    ),
+  );
 }
 
 class UpwardTriangleIcon extends StatelessWidget {
