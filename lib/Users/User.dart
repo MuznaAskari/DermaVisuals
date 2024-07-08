@@ -41,6 +41,7 @@ class _UserHomeState extends State<UserHome> {
 
   void dispose() {
     Tflite.close();
+    print("Model closed called");
     super.dispose();
   }
 
@@ -144,7 +145,7 @@ class _UserHomeState extends State<UserHome> {
             if(image != null)
               InkWell(
                 onTap: (){
-                  uploadFile();
+                  // uploadFile();
                   classifyImage(image!.path);
                 },
                 child: Center(
