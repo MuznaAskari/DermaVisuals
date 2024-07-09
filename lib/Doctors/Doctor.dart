@@ -1,5 +1,6 @@
 import 'package:DermaVisuals/Components/appbar.dart';
 import 'package:DermaVisuals/Doctors/Prescription.dart';
+import 'package:DermaVisuals/Doctors/Video Consultation/pages/HomePage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -41,7 +42,7 @@ class DoctorHome extends StatelessWidget {
                               fontSize: deviceWidth < 800 ? deviceHeight * 0.02: deviceHeight * 0.025,
                             ),
                           ),
-                          SizedBox(width: deviceWidth * 0.13,),
+                          SizedBox(width: deviceWidth * 0.12,),
                           Align(
                             alignment: Alignment. centerRight,
                               child: Image.asset("assets/HomePageDoctor.png", width: deviceWidth* 0.3, height: deviceHeight * 0.3,)
@@ -56,7 +57,7 @@ class DoctorHome extends StatelessWidget {
               // container 2 video Consultation
               InkWell(
                 onTap: (){
-                  Navigator.push(context, MaterialPageRoute(builder:  (context) => DoctorHome()));
+                  Navigator.push(context, MaterialPageRoute(builder:  (context) => MyHomePage()));
                 },
                 child: Center(
                   child: Container(
